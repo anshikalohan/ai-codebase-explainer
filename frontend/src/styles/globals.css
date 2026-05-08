@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-terminal-bg text-terminal-text font-sans bg-fixed bg-cover;
+    background-image: radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(163, 113, 247, 0.15) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-terminal-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-terminal-muted;
+  }
+
+  /* Code blocks inside markdown */
+  .prose pre {
+    @apply bg-[#0d1117] border border-terminal-border rounded-lg overflow-x-auto;
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+
+  .prose code:not(pre code) {
+    @apply bg-terminal-surface text-terminal-accent px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose p {
+    @apply mb-3 leading-relaxed;
+  }
+
+  .prose h1, .prose h2, .prose h3 {
+    @apply font-semibold text-terminal-text mt-4 mb-2;
+  }
+
+  .prose h1 { @apply text-xl; }
+  .prose h2 { @apply text-lg; }
+  .prose h3 { @apply text-base; }
+
+  .prose ul, .prose ol {
+    @apply pl-5 mb-3;
+  }
+
+  .prose li {
+    @apply mb-1;
+  }
+
+  .prose strong {
+    @apply text-terminal-text font-semibold;
+  }
+
+  .prose a {
+    @apply text-terminal-accent hover:underline;
+  }
+
+  .prose blockquote {
+    @apply border-l-2 border-terminal-accent pl-3 text-terminal-muted italic my-3;
+  }
+
+  .prose table {
+    @apply w-full border-collapse text-sm my-3;
+  }
+
+  .prose th {
+    @apply bg-terminal-surface text-terminal-text font-semibold px-3 py-2 text-left border border-terminal-border;
+  }
+
+  .prose td {
+    @apply px-3 py-2 border border-terminal-border text-terminal-muted;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-terminal-accent text-white font-semibold px-5 py-2.5 rounded-lg
+           hover:bg-blue-500 transition-all duration-300 disabled:opacity-50 
+           disabled:cursor-not-allowed text-sm shadow-[0_0_15px_rgba(59,130,246,0.3)]
+           hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] transform hover:-translate-y-0.5;
+  }
+
+  .btn-ghost {
+    @apply text-terminal-muted hover:text-terminal-text hover:bg-white/5
+           px-3 py-1.5 rounded-lg transition-all duration-200 text-sm backdrop-blur-sm;
+  }
+
+  .card {
+    @apply bg-terminal-surface border border-terminal-border rounded-xl backdrop-blur-xl shadow-2xl;
+  }
+
+  .input-field {
+    @apply bg-black/40 border border-terminal-border rounded-lg px-4 py-2.5
+           text-terminal-text placeholder-terminal-muted focus:outline-none
+           focus:border-terminal-accent transition-all duration-300 text-sm backdrop-blur-md focus:shadow-[0_0_15px_rgba(59,130,246,0.15)];
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono;
+  }
+
+  .badge-blue {
+    @apply badge bg-blue-500/10 text-terminal-accent border border-blue-500/20;
+  }
+
+  .badge-green {
+    @apply badge bg-green-500/10 text-terminal-green border border-green-500/20;
+  }
+
+  .badge-yellow {
+    @apply badge bg-yellow-500/10 text-terminal-yellow border border-yellow-500/20;
+  }
+
+  .badge-red {
+    @apply badge bg-red-500/10 text-terminal-red border border-red-500/20;
+  }
+
+  .badge-purple {
+    @apply badge bg-purple-500/10 text-terminal-purple border border-purple-500/20;
+  }
+}
+
+/* Typing indicator animation */
+.typing-dot {
+  animation: typing 1.4s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* File tree indent lines */
+.tree-line {
+  position: relative;
+}
+
+.tree-line::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: theme('colors.terminal.border');
+}
