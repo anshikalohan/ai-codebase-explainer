@@ -6,7 +6,6 @@ Uses llama3-70b-8192 — free tier, 6000 tokens/min.
 import logging
 import json
 from typing import List, Dict, Any, Optional, AsyncGenerator
-from functools import lru_cache
 
 import httpx
 
@@ -17,7 +16,7 @@ logger = logging.getLogger(__name__)
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 
-SYSTEM_PROMPT = """You are an expert software engineer and code analyst. 
+SYSTEM_PROMPT = """You are an expert software engineer and code analyst.
 You help developers understand codebases by providing clear, accurate, and insightful explanations.
 
 Your responses should:
@@ -60,7 +59,7 @@ class GroqLLMService:
 
         if not context_chunks:
             return f"""No relevant code was found in the indexed codebase for this question.
-            
+
 Question: {question}
 
 Please let the user know that you couldn't find relevant context and suggest they try rephrasing."""
@@ -204,7 +203,7 @@ Provide a detailed, technically accurate response. Reference specific files and 
                             continue
 
         except httpx.HTTPStatusError as e:
-            # We must await e.response.aread() if we want the text in a stream block, 
+            # We must await e.response.aread() if we want the text in a stream block,
             # but usually it's raised before streaming starts if it's a 4xx.
             logger.error(f"Groq API error: {e.response.status_code}")
             raise RuntimeError(f"LLM API error: {e.response.status_code}")

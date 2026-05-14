@@ -4,10 +4,10 @@ API Routes - All FastAPI endpoints for the Codebase Explainer.
 
 import logging
 import json
-from typing import Optional, List
+from typing import Optional
 from fastapi import APIRouter, File, UploadFile, HTTPException, BackgroundTasks
-from fastapi.responses import JSONResponse, StreamingResponse
-from pydantic import BaseModel, HttpUrl, field_validator
+from fastapi.responses import StreamingResponse
+from pydantic import BaseModel, field_validator
 
 from app.core.config import settings
 from app.core.vector_store import vector_store
@@ -258,7 +258,7 @@ async def chat(request: ChatRequest):
             return
 
         final_answer = "".join(full_answer)
-        
+
         # Cache response
         session_manager.query_cache.set(
             request.session_id, request.question, request.question_type, final_answer
@@ -267,7 +267,7 @@ async def chat(request: ChatRequest):
         # Update chat history
         session.add_message("user", request.question)
         session.add_message("assistant", final_answer)
-        
+
         yield "data: [DONE]\n\n"
 
     return StreamingResponse(generate(), media_type="text/event-stream")

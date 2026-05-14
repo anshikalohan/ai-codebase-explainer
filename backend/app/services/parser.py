@@ -4,15 +4,13 @@ Handles ZIP uploads and GitHub repos with smart chunking strategy.
 """
 
 import io
-import os
 import re
 import zipfile
 import hashlib
 import logging
-import tempfile
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
-from dataclasses import dataclass, field
+from typing import List, Dict, Any, Tuple
+from dataclasses import dataclass
 
 import httpx
 
@@ -250,7 +248,7 @@ def _sliding_window_chunk(
             # Overlap: keep last N lines
             overlap_lines = current_lines[-max(1, overlap // 60):]
             current_lines = overlap_lines
-            current_size = sum(len(l) + 1 for l in overlap_lines)
+            current_size = sum(len(line) + 1 for line in overlap_lines)
             line_start = i - len(overlap_lines) + 1
 
     # Remaining lines

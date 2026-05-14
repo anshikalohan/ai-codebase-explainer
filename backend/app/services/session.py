@@ -108,9 +108,9 @@ class QueryCache:
 
     def invalidate_session(self, session_id: str):
         """Remove all cache entries for a session."""
-        keys_to_delete = [k for k, v in self._cache.items()]
         # We don't store session_id in key value, so just clear all on session delete
         # In production: store session_id separately
+        self._cache.clear()
 
     @property
     def size(self) -> int:

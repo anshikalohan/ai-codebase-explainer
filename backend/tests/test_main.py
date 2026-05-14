@@ -222,7 +222,7 @@ def test_full_workflow():
 
     # 3. File content
     file_response = client.get(
-        f"/api/v1/file/{session_id}?path=app/main.py"
+        f"/api/v1/file/{session_id}?path=main.py"
     )
     assert file_response.status_code == 200
     assert "fastapi" in file_response.json()["content"].lower()

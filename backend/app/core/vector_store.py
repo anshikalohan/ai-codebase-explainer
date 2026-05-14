@@ -5,7 +5,6 @@ Uses sentence-transformers for free local embeddings.
 
 import logging
 import os
-import hashlib
 from typing import List, Optional, Dict, Any
 
 import chromadb
