@@ -61,7 +61,7 @@ class SessionDeleteRequest(BaseModel):
 
 # ─── Ingest Endpoints ────────────────────────────────────────────────────
 
-async def _index_codebase(session_id: str, files):
+def _index_codebase(session_id: str, files):
     """Background task: build chunks and index into vector store."""
     try:
         chunks = code_parser.build_chunks(files)
