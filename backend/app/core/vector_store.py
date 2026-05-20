@@ -9,7 +9,7 @@ from typing import List, Optional, Dict, Any
 
 import chromadb
 from chromadb.config import Settings as ChromaSettings
-from sentence_transformers import SentenceTransformer
+from chromadb.utils.embedding_functions import DefaultEmbeddingFunction
 
 from app.core.config import settings
 
@@ -24,7 +24,7 @@ class VectorStore:
 
     def __init__(self):
         self._client: Optional[chromadb.Client] = None
-        self._model: Optional[SentenceTransformer] = None
+        self._model = None
         self._collection = None
         self._session_id: Optional[str] = None
 
@@ -38,11 +38,11 @@ class VectorStore:
             logger.info(f"ChromaDB initialized at {settings.VECTOR_STORE_PATH}")
         return self._client
 
-    def _get_model(self) -> SentenceTransformer:
+    def _get_model(self):
         if self._model is None:
-            logger.info(f"Loading embedding model: {settings.EMBEDDING_MODEL}")
-            self._model = SentenceTransformer(settings.EMBEDDING_MODEL)
-            logger.info("Embedding model loaded successfully")
+            logger.info("Loading lightweight ONNX embedding model to save memory...")
+            self._model = DefaultEmbeddingFunction()
+            logger.info("ONNX Embedding model loaded successfully")
         return self._model
 
     def _get_collection(self, session_id: str):
@@ -65,8 +65,7 @@ class VectorStore:
     def embed_texts(self, texts: List[str]) -> List[List[float]]:
         """Generate embeddings for a list of texts."""
         model = self._get_model()
-        embeddings = model.encode(texts, show_progress_bar=False, batch_size=32)
-        return embeddings.tolist()
+        return model(texts)
 
     def add_chunks(self, session_id: str, chunks: List[Dict[str, Any]]) -> int:
         """
